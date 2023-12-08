@@ -15,4 +15,4 @@ jobs:
 
     - name: Display changed files
       run: |
-        echo "Changed files: ${{ github.event.head_commit.modified }}"
+        echo "Changed files: ${{ join(github.event.head_commit.modified, ',' ) }}"
