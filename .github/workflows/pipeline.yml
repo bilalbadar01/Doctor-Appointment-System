@@ -27,14 +27,16 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+    - name: Debug Modified Files
+        run: echo "Modified Files: ${{ github.event.head_commit.modified }}"
+      
     - name: Build and push Doctors microservice
       if: contains(github.event_name, 'push') && contains(github.event.head_commit.modified, 'doctors/')
       run: |
         docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
         docker push bilalbadar01/doctor-image:${{ github.sha }}
         docker push bilalbadar01/doctor-image:latest
-
+      
     - name: Build and push Appointments microservice
       if: contains(github.event_name, 'push') && contains(github.event.head_commit.modified, 'appointments/')
       run: |
