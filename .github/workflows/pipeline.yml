@@ -17,3 +17,7 @@ jobs:
       run: |
        echo "Before: ${{ github.event.before }}"
        echo "After: ${{ github.sha }}"
+    - name: Get Modified Files
+      run: |
+        MODIFIED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+        echo "Changed files: $MODIFIED_FILES"
