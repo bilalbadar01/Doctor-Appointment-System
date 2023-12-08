@@ -13,11 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Get Modified Files
+    - name: Display Changed Files
       run: |
-       echo "Before: ${{ github.event.before }}"
-       echo "After: ${{ github.sha }}"
-    - name: Get Modified Files
-      run: |
-        MODIFIED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-        echo "Changed files: $MODIFIED_FILES"
+        # Display the files changed in the latest commit
+        git show --name-only ${{ github.sha }}
