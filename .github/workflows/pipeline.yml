@@ -35,6 +35,12 @@ jobs:
           docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
           docker push bilalbadar01/doctor-image:${{ github.sha }}
           docker push bilalbadar01/doctor-image:latest
+
+          # Update Docker Compose file for Doctors microservice
+          sed -i 's|bilalbadar01/doctor-image:.*|bilalbadar01/doctor-image:'"${{ github.sha }}"'|' docker-compose.yml
+          git add docker-compose.yml
+          git commit -m "Update Doctors microservice image tag to ${GITHUB_SHA}"
+          git push origin main
         fi
 
     - name: Build and push Appointments microservice
@@ -43,6 +49,12 @@ jobs:
           docker build -t bilalbadar01/appointment-image:${{ github.sha }} -t bilalbadar01/appointment-image:latest -f ./appointments/Dockerfile ./appointments
           docker push bilalbadar01/appointment-image:${{ github.sha }}
           docker push bilalbadar01/appointment-image:latest
+
+          # Update Docker Compose file for Appointments microservice
+          sed -i 's|bilalbadar01/appointment-image:.*|bilalbadar01/appointment-image:'"${{ github.sha }}"'|' docker-compose.yml
+          git add docker-compose.yml
+          git commit -m "Update Appointments microservice image tag to ${GITHUB_SHA}"
+          git push origin main
         fi
 
     - name: Build and push Frontend microservice
@@ -51,4 +63,10 @@ jobs:
           docker build -t bilalbadar01/frontend-image:${{ github.sha }} -t bilalbadar01/frontend-image:latest -f ./frontend/Dockerfile ./frontend
           docker push bilalbadar01/frontend-image:${{ github.sha }}
           docker push bilalbadar01/frontend-image:latest
+
+          # Update Docker Compose file for Frontend microservice
+          sed -i 's|bilalbadar01/frontend-image:.*|bilalbadar01/frontend-image:'"${{ github.sha }}"'|' docker-compose.yml
+          git add docker-compose.yml
+          git commit -m "Update Frontend microservice image tag to ${GITHUB_SHA}"
+          git push origin main
         fi
