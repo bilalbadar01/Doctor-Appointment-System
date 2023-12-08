@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  frontend:
+    image: bilalbadar01/frontend-image:latest  
+    ports:
+      - "3000:3000"
+    networks:
+      - doc-app-network
+  myappointment:
+    image: bilalbadar01/appointment-image:latest 
+    ports:
+      - "7070:7070"
+    networks:
+      - doc-app-network
+
+  doctor:
+    image: bilalbadar01/doctor-image:latest 
+    ports:
+      - "9090:9090"
+    networks:
+      - doc-app-network
+
+networks:
+  doc-app-network:
+    driver: bridge
