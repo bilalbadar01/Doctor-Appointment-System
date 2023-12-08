@@ -34,7 +34,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Debug Modified Files
-      run: echo "Modified Files: ${{ github.event.head_commit.modified }}"
+      run: echo "Modified Files ${{ github.event.head_commit.modified }}"
 
     - name: Build and push Doctors microservice
       if: contains(github.event_name, 'push') && contains(github.event.head_commit.modified, 'doctors/')
