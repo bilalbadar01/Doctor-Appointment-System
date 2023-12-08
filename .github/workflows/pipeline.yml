@@ -15,5 +15,8 @@ jobs:
 
     - name: Display Changed Files
       run: |
-        # Display the files changed in the latest 
-        git show --stat --oneline ${{ github.sha }}
+        # Fetch the full commit history to ensure we have the necessary information
+        git fetch --prune --unshallow
+
+        # Display the files changed between the last two commits
+        git diff --name-only HEAD^1 HEAD
