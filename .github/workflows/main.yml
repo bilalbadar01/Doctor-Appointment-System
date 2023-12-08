@@ -2,17 +2,11 @@ name: CI/CD Pipeline
 
 on:
   pull_request:
-    paths:
-      - 'doctors/**'
-      - 'appointments/**'
-      - 'frontend/**'
+    branches:
+      - 'main'
   push:
     branches:
       - main
-    paths:
-      - 'doctors/**'
-      - 'appointments/**'
-      - 'frontend/**'
 
 jobs:
   build-and-deploy:
@@ -22,36 +16,32 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Debug Event Information
-      run: |
-        echo "Event Name: ${{ github.event_name }}"
-        echo "Modified Files: ${{ github.event.head_commit.modified }}"
-
     - name: Login to DockerHub
       uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Debug Modified Files
-      run: echo "Modified Files ${{ github.event.head_commit.modified }}"
+    - name: Determine changed paths
+      id: changed_paths
+      run: echo "::set-output name=paths::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
 
     - name: Build and push Doctors microservice
-      if: contains(github.event_name, 'push')
+      if: contains(steps.changed_paths.outputs.paths, 'doctors/')
       run: |
         docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
         docker push bilalbadar01/doctor-image:${{ github.sha }}
         docker push bilalbadar01/doctor-image:latest
 
     - name: Build and push Appointments microservice
-      if: contains(github.event_name, 'push')
+      if: contains(steps.changed_paths.outputs.paths, 'appointments/')
       run: |
         docker build -t bilalbadar01/appointment-image:${{ github.sha }} -t bilalbadar01/appointment-image:latest -f ./appointments/Dockerfile ./appointments
         docker push bilalbadar01/appointment-image:${{ github.sha }}
         docker push bilalbadar01/appointment-image:latest
 
     - name: Build and push Frontend microservice
-      if: contains(github.event_name, 'push')
+      if: contains(steps.changed_paths.outputs.paths, 'frontend/')
       run: |
         docker build -t bilalbadar01/frontend-image:${{ github.sha }} -t bilalbadar01/frontend-image:latest -f ./frontend/Dockerfile ./frontend
         docker push bilalbadar01/frontend-image:${{ github.sha }}
