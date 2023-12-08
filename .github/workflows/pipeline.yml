@@ -1,12 +1,15 @@
-name: Check Changes in Appointments Folder
+name: CI/CD Pipeline
 
 on:
+  pull_request:
+    branches:
+      - '*'
   push:
     branches:
       - main
 
 jobs:
-  check-appointments-changes:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,26 +18,37 @@ jobs:
 
     - name: Display and Store Changed Files
       run: |
-        # Fetch the full commit history to ensure we have the necessary information
         git fetch --prune --unshallow
-
-        # Display the files changed between the last two commits and store in a variable
         CHANGED_FILES=$(git diff --name-only HEAD^1 HEAD)
-
-        # Print the changed files
         echo "Changed files: $CHANGED_FILES"
+        echo "CHANGED_FILES=${CHANGED_FILES//%0A/ }" >> $GITHUB_ENV
 
-        # Set an output variable for later use, replacing newlines with spaces
-        echo "CHANGED_FILES=$(echo "$CHANGED_FILES" | tr '\n' ' ')" >> $GITHUB_ENV
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Check Changes in Doctors Folder
+    - name: Build and push Doctors microservice
       run: |
-        # Access the environment variable
-        CHANGED_FILES="${CHANGED_FILES}"
-
-        # Check if any of the changed files are within the "appointments" folder
         if echo "$CHANGED_FILES" | grep -qE "\bdoctors\b"; then
-          echo "Changes were made in the 'doctors' folder."
-        else
-          echo "No changes were made in the 'doctors' folder."
+          docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
+          docker push bilalbadar01/doctor-image:${{ github.sha }}
+          docker push bilalbadar01/doctor-image:latest
+        fi
+
+    - name: Build and push Appointments microservice
+      run: |
+        if echo "$CHANGED_FILES" | grep -qE "\appointments\b"; then
+          docker build -t bilalbadar01/appointment-image:${{ github.sha }} -t bilalbadar01/appointment-image:latest -f ./appointments/Dockerfile ./appointments
+          docker push bilalbadar01/appointment-image:${{ github.sha }}
+          docker push bilalbadar01/appointment-image:latest
+        fi
+
+    - name: Build and push Frontend microservice
+      run: |
+        if echo "$CHANGED_FILES" | grep -qE "\bfrontend\b"; then
+          docker build -t bilalbadar01/frontend-image:${{ github.sha }} -t bilalbadar01/frontend-image:latest -f ./frontend/Dockerfile ./frontend
+          docker push bilalbadar01/frontend-image:${{ github.sha }}
+          docker push bilalbadar01/frontend-image:latest
         fi
