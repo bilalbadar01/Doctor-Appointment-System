@@ -16,4 +16,7 @@ jobs:
     - name: Display changed files
       run: |
         echo "Changed files:"
-        echo "${{ join(github.event.head_commit.modified, ', ') }}"
+        for file in ${{ github.event.head_commit.modified }}
+        do
+        echo "  - $file"
+        done
