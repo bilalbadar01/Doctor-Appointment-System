@@ -2,9 +2,15 @@ name: CI/CD Pipeline
 
 on:
   pull_request:
-    branches:
-      - '*'
+    paths:
+      - 'doctors/**'
+      - 'appointments/**'
+      - 'frontend/**'
   push:
+    paths:
+      - 'doctors/**'
+      - 'appointments/**'
+      - 'frontend/**'
     branches:
       - main
 
@@ -23,18 +29,21 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and push Doctors microservice
+      if: contains(github.event_name, 'push') && contains(github.event.head_commit.modified, 'doctors/')
       run: |
         docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
         docker push bilalbadar01/doctor-image:${{ github.sha }}
         docker push bilalbadar01/doctor-image:latest
 
     - name: Build and push Appointments microservice
+      if: contains(github.event_name, 'push') && contains(github.event.head_commit.modified, 'appointments/')
       run: |
         docker build -t bilalbadar01/appointment-image:${{ github.sha }} -t bilalbadar01/appointment-image:latest -f ./appointments/Dockerfile ./appointments
         docker push bilalbadar01/appointment-image:${{ github.sha }}
         docker push bilalbadar01/appointment-image:latest
 
     - name: Build and push Frontend microservice
+      if: contains(github.event_name, 'push') && contains(github.event.head_commit.modified, 'frontend/')
       run: |
         docker build -t bilalbadar01/frontend-image:${{ github.sha }} -t bilalbadar01/frontend-image:latest -f ./frontend/Dockerfile ./frontend
         docker push bilalbadar01/frontend-image:${{ github.sha }}
