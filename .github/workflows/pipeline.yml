@@ -23,6 +23,11 @@ jobs:
         echo "Changed files: $CHANGED_FILES"
         echo "CHANGED_FILES=$(echo "$CHANGED_FILES" | tr '\n' ' ')" >> $GITHUB_ENV
 
+    - name: Set Git user identity
+      run: |
+        git config user.email "actions@github.com"
+        git config user.name "GitHub Actions"
+
     - name: Login to DockerHub
       uses: docker/login-action@v1
       with:
