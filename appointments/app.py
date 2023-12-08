@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 appointments = [
   { 'id': "1",'doctor': "1", 'date': "21 Nov 2023", 'rating':"Ba3d"  },
-  { 'id': "2",'doctor': "1", 'date': "22 Nov 2023", 'rating':"Bfad"  },
+  { 'id': "2",'doctor': "1", 'date': "22 Nov 2023", 'rating':"Bfffad"  },
   { 'id': "3",'doctor': "2", 'date': "22 Nov 2023", 'rating':"Gfaffod"  },
   { 'id': "4",'doctor': "1", 'date': "22 Nov 2023", 'rating':"fod"  },
   { 'id': "5",'doctor': "2", 'date': "22 Nov 2023", 'rating':"Badfff"  },
