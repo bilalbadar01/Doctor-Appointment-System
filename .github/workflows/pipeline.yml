@@ -24,8 +24,8 @@ jobs:
         # Print the changed files
         echo "Changed files: $CHANGED_FILES"
 
-        # Set an output variable for later use
-        echo "CHANGED_FILES=${CHANGED_FILES//%0A/ }" >> $GITHUB_ENV
+        # Set an output variable for later use, replacing newlines with spaces
+        echo "CHANGED_FILES=$(echo "$CHANGED_FILES" | tr '\n' ' ')" >> $GITHUB_ENV
 
     - name: Check Changes in Appointments Folder
       run: |
@@ -33,7 +33,7 @@ jobs:
         CHANGED_FILES="${CHANGED_FILES}"
 
         # Check if any of the changed files are within the "appointments" folder
-        if echo "$CHANGED_FILES" | grep -qE "^appointments/.*"; then
+        if echo "$CHANGED_FILES" | grep -qE "\bappointments\b"; then
           echo "Changes were made in the 'appointments' folder."
         else
           echo "No changes were made in the 'appointments' folder."
