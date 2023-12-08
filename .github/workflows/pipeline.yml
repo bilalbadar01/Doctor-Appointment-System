@@ -1,4 +1,4 @@
-name: Display Changed Files
+name: Display and Store Changed Files
 
 on:
   push:
@@ -13,10 +13,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Display Changed Files
+    - name: Display and Store Changed Files
       run: |
         # Fetch the full commit history to ensure we have the necessary information
         git fetch --prune --unshallow
 
-        # Display the files changed between the last two commits
-        git diff --name-only HEAD^1 HEAD
+        # Display the files changed between the last two commits and store in a variable
+        CHANGED_FILES=$(git diff --name-only HEAD^1 HEAD)
+
+        # Print the changed files
+        echo "Changed files: $CHANGED_FILES"
+
+        # Set an output variable for later use
+        echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
