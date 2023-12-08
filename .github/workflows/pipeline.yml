@@ -1,22 +1,19 @@
-name: CI/CD Pipeline
+name: Example Workflow
 
 on:
-  pull_request:
-    branches:
-      - '*'
   push:
     branches:
       - main
 
 jobs:
-  build-and-deploy:
+  example_job:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Display changed files
       run: |
         echo "Changed files:"
-        for file in ${{ github.event.head_commit.modified }}
-        do
-        echo "  - $file"
-        done
+        git diff --name-only ${{ github.event.before }} ${{ github.sha }}
