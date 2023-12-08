@@ -15,8 +15,5 @@ jobs:
 
     - name: Get Modified Files
       run: |
-        # Capture the list of modified files
-        MODIFIED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-
-        # Display the list of modified files
-        echo "Changed files: $MODIFIED_FILES"
+       echo "Before: ${{ github.event.before }}"
+       echo "After: ${{ github.sha }}"
