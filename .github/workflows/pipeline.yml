@@ -16,3 +16,6 @@ jobs:
     - name: Display changed files
       run: |
         echo "Changed files: ${{ join(github.event.head_commit.modified, ',' ) }}"
+    - name: Debug GitHub context
+      run: echo "${{ toJson(github) }}"
+      
