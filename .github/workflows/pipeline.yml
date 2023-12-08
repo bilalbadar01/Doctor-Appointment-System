@@ -1,4 +1,4 @@
-name: Example Workflow
+name: Display Changed Files
 
 on:
   push:
@@ -6,16 +6,17 @@ on:
       - main
 
 jobs:
-  example_job:
+  display-changed-files:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-    - name: Display changed files
+    - name: Get Modified Files
       run: |
-        echo "Changed files: ${{ join(github.event.head_commit.modified, ',' ) }}"
-    - name: Debug GitHub context
-      run: echo "${{ toJson(github) }}"
-      
+        # Capture the list of modified files
+        MODIFIED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
+        # Display the list of modified files
+        echo "Changed files: $MODIFIED_FILES"
