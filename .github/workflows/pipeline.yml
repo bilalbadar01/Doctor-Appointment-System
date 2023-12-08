@@ -1,4 +1,4 @@
-name: Display and Store Changed Files
+name: Check Changes in Appointments Folder
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  display-changed-files:
+  check-appointments-changes:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,11 +30,11 @@ jobs:
     - name: Check Changes in Appointments Folder
       run: |
         # Access the environment variable
-        CHANGED_FILES=${CHANGED_FILES}
+        CHANGED_FILES="${CHANGED_FILES}"
 
         # Check if any of the changed files are within the "appointments" folder
-        if echo "$CHANGED_FILES" | grep -q "^appointments/"; then
-            echo "Changes were made in the 'appointments' folder."
+        if echo "$CHANGED_FILES" | grep -qE "^appointments/.*"; then
+          echo "Changes were made in the 'appointments' folder."
         else
-            echo "No changes were made in the 'appointments' folder."
+          echo "No changes were made in the 'appointments' folder."
         fi
