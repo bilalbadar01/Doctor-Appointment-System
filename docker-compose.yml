@@ -8,7 +8,7 @@ services:
     networks:
       - doc-app-network
   myappointment:
-    image: bilalbadar01/appointment-image:latest 
+    image: bilalbadar01/appointment-image:795bf05081bd8f26e2b84b088e38227da1bb1af4
     ports:
       - "7070:7070"
     networks:
