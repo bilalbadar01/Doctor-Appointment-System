@@ -15,5 +15,4 @@ jobs:
 
     - name: Display changed files
       run: |
-        echo "Changed files:"
-        git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
+        echo "Changed files: ${{ github.event.head_commit.modified }}"
