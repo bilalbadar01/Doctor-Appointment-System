@@ -25,4 +25,9 @@ jobs:
         echo "Changed files: $CHANGED_FILES"
 
         # Set an output variable for later use
-        echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
+        echo "CHANGED_FILES=${CHANGED_FILES}" >> $GITHUB_ENV
+
+    - name: Use Changed Files
+      run: |
+        # Access the environment variable in a subsequent step
+        echo "Changed files from a later step: ${CHANGED_FILES}"
