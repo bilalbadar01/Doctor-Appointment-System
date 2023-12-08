@@ -27,7 +27,14 @@ jobs:
         # Set an output variable for later use
         echo "CHANGED_FILES=${CHANGED_FILES}" >> $GITHUB_ENV
 
-    - name: Use Changed Files
+    - name: Check Changes in Appointments Folder
       run: |
-        # Access the environment variable in a subsequent step
-        echo "Changed files from a later step: ${CHANGED_FILES}"
+        # Access the environment variable
+        CHANGED_FILES=${CHANGED_FILES}
+
+        # Check if any of the changed files are within the "appointments" folder
+        if echo "$CHANGED_FILES" | grep -q "^appointments/"; then
+            echo "Changes were made in the 'appointments' folder."
+        else
+            echo "No changes were made in the 'appointments' folder."
+        fi
