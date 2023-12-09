@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Display and Store Changed Files
+      run: |
+        git fetch --prune --unshallow
+        CHANGED_FILES=$(git diff --name-only HEAD^1 HEAD)
+        echo "CHANGED_FILES=$(echo "$CHANGED_FILES" | tr '\n' ' ')" >> $GITHUB_ENV
+
+    - name: Set Git user identity
+      run: |
+        git config user.email "actions@github.com"
+        git config user.name "GitHub Actions"
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push Doctors microservice
+      run: |
+        if echo "$CHANGED_FILES" | grep -qE "\bdoctors\b"; then
+          docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
+          docker push bilalbadar01/doctor-image:${{ github.sha }}
+          docker push bilalbadar01/doctor-image:latest
+
+          # Update Docker Compose file for Doctors microservice
+          sed -i 's|bilalbadar01/doctor-image:.*|bilalbadar01/doctor-image:'"${{ github.sha }}"'|' docker-compose.yml
+          git add docker-compose.yml
+          git commit -m "Update Doctors microservice image tag to ${GITHUB_SHA}"
+          git push 
+        fi
+

@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 doctors = [
-  { 'id': "1",'firstName': "Muhammad Ali", 'lastName': "Kafhfoot", 'speciality':"DevOps"  },
+  { 'id': "1",'firstName': "Muhammad Ali", 'lastName': "Kaffhfoot", 'speciality':"DevOps"  },
   { 'id': "2",'firstName': "Bfila", 'lastName': "Badar",'speciality':"Test"  }
 ]
 
