@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 doctors = [
   { 'id': "1",'firstName': "Muhammad Ali", 'lastName': "Kaffhfoot", 'speciality':"DevOps"  },
-  { 'id': "2",'firstName': "Bffifla", 'lastName': "Baffdar",'speciality':"Test"  }
+  { 'id': "2",'firstName': "Bffifla", 'lastName': "Baffdar",'speciality':"Tefst"  }
 ]
 
 @app.route('/hello')
