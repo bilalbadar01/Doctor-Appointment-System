@@ -2,7 +2,7 @@ version: '3'
 
 services:
   frontend:
-    image: bilalbadar01/frontend-image:latest  
+    image: bilalbadar01/frontend-image:28062dbbfef494b97ed5957423bf08f297054256
     ports:
       - "3000:3000"
     networks:
