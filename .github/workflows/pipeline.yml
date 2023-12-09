@@ -41,10 +41,11 @@ jobs:
           docker push bilalbadar01/doctor-image:latest
 
           # Update Docker Compose file for Doctors microservice
+          git pull
           sed -i 's|bilalbadar01/doctor-image:.*|bilalbadar01/doctor-image:'"${{ github.sha }}"'|' docker-compose.yml
           git add docker-compose.yml
           git commit -m "Update Doctors microservice image tag to ${GITHUB_SHA}"
-          git push origin main
+          git push
         fi
 
   build-and-deploy-appointments:
@@ -79,10 +80,11 @@ jobs:
           docker push bilalbadar01/appointment-image:latest
 
           # Update Docker Compose file for Appointments microservice
+          git pull
           sed -i 's|bilalbadar01/appointment-image:.*|bilalbadar01/appointment-image:'"${{ github.sha }}"'|' docker-compose.yml
           git add docker-compose.yml
           git commit -m "Update Appointments microservice image tag to ${GITHUB_SHA}"
-          git push origin main
+          git push 
         fi
 
   build-and-deploy-frontend:
@@ -117,8 +119,9 @@ jobs:
           docker push bilalbadar01/frontend-image:latest
 
           # Update Docker Compose file for Frontend microservice
+          git pull
           sed -i 's|bilalbadar01/frontend-image:.*|bilalbadar01/frontend-image:'"${{ github.sha }}"'|' docker-compose.yml
           git add docker-compose.yml
           git commit -m "Update Frontend microservice image tag to ${GITHUB_SHA}"
-          git push origin main
+          git push 
         fi
