@@ -7,6 +7,7 @@ services:
       - "3000:3000"
     networks:
       - doc-app-network
+
   myappointment:
     image: bilalbadar01/appointment-image:5988bc2682d41bb2406126d14f436a2ceb9889e2
     ports:
@@ -20,6 +21,16 @@ services:
       - "9090:9090"
     networks:
       - doc-app-network
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_password
+    ports:
+      - "3306:3306"
 
 networks:
   doc-app-network:
