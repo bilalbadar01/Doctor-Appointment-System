@@ -37,15 +37,13 @@ jobs:
 
     - name: Build and push Frontend microservice
       run: |
-        if echo "$CHANGED_FILES" | grep -qE "\bfrontend\b"; then
-          docker build -t bilalbadar01/frontend-image:${{ github.sha }} -t bilalbadar01/frontend-image:latest -f ./frontend/Dockerfile ./frontend
-          docker push bilalbadar01/frontend-image:${{ github.sha }}
-          docker push bilalbadar01/frontend-image:latest
+        docker build -t bilalbadar01/frontend-image:${{ github.sha }} -t bilalbadar01/frontend-image:latest -f ./frontend/Dockerfile ./frontend
+        docker push bilalbadar01/frontend-image:${{ github.sha }}
+        docker push bilalbadar01/frontend-image:latest
 
-          # Update Docker Compose file for Frontend microservice
-          sed -i 's|bilalbadar01/frontend-image:.*|bilalbadar01/frontend-image:'"${{ github.sha }}"'|' docker-compose.yml
-          git add docker-compose.yml
-          git commit -m "Update Frontend microservice image tag to ${GITHUB_SHA}"
-          git pull origin main --no-rebase
-          git push 
-        fi
+        # Update Docker Compose file for Frontend microservice
+        sed -i 's|bilalbadar01/frontend-image:.*|bilalbadar01/frontend-image:'"${{ github.sha }}"'|' docker-compose.yml
+        git add docker-compose.yml
+        git commit -m "Update Frontend microservice image tag to ${GITHUB_SHA}"
+        git pull origin main --no-rebase
+        git push 

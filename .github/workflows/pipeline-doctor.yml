@@ -37,17 +37,15 @@ jobs:
 
     - name: Build and push Doctors microservice
       run: |
-        if echo "$CHANGED_FILES" | grep -qE "\bdoctors\b"; then
-          docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
-          docker push bilalbadar01/doctor-image:${{ github.sha }}
-          docker push bilalbadar01/doctor-image:latest
+        docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
+        docker push bilalbadar01/doctor-image:${{ github.sha }}
+        docker push bilalbadar01/doctor-image:latest
 
-          # Update Docker Compose file for Doctors microservice
-          sed -i 's|bilalbadar01/doctor-image:.*|bilalbadar01/doctor-image:'"${{ github.sha }}"'|' docker-compose.yml
-          git add docker-compose.yml
-          git commit -m "Update Doctors microservice image tag to ${GITHUB_SHA}"
-          git pull origin main --no-rebase
-          git push
-        fi
+        # Update Docker Compose file for Doctors microservice
+        sed -i 's|bilalbadar01/doctor-image:.*|bilalbadar01/doctor-image:'"${{ github.sha }}"'|' docker-compose.yml
+        git add docker-compose.yml
+        git commit -m "Update Doctors microservice image tag to ${GITHUB_SHA}"
+        git pull origin main --no-rebase
+        git push
 
   
