@@ -18,12 +18,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Display and Store Changed Files
-      run: |
-        git fetch --prune --unshallow
-        CHANGED_FILES=$(git diff --name-only HEAD^1 HEAD)
-        echo "CHANGED_FILES=$(echo "$CHANGED_FILES" | tr '\n' ' ')" >> $GITHUB_ENV
-
     - name: Set Git user identity
       run: |
         git config user.email "actions@github.com"
@@ -37,17 +31,15 @@ jobs:
 
     - name: Build and push Appointments microservice
       run: |
-        if echo "$CHANGED_FILES" | grep -qE "\appointments\b"; then
-          docker build -t bilalbadar01/appointment-image:${{ github.sha }} -t bilalbadar01/appointment-image:latest -f ./appointments/Dockerfile ./appointments
-          docker push bilalbadar01/appointment-image:${{ github.sha }}
-          docker push bilalbadar01/appointment-image:latest
+        docker build -t bilalbadar01/appointment-image:${{ github.sha }} -t bilalbadar01/appointment-image:latest -f ./appointments/Dockerfile ./appointments
+        docker push bilalbadar01/appointment-image:${{ github.sha }}
+        docker push bilalbadar01/appointment-image:latest
 
-          # Update Docker Compose file for Appointments microservice
-          sed -i 's|bilalbadar01/appointment-image:.*|bilalbadar01/appointment-image:'"${{ github.sha }}"'|' docker-compose.yml
-          git add docker-compose.yml
-          git commit -m "Update Appointments microservice image tag to ${GITHUB_SHA}"
-          git pull origin main --no-rebase
-          git push 
-        fi
+        # Update Docker Compose file for Appointments microservice
+        sed -i 's|bilalbadar01/appointment-image:.*|bilalbadar01/appointment-image:'"${{ github.sha }}"'|' docker-compose.yml
+        git add docker-compose.yml
+        git commit -m "Update Appointments microservice image tag to ${GITHUB_SHA}"
+        git pull origin main --no-rebase
+        git push 
 
  
