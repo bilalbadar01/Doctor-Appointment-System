@@ -16,7 +16,7 @@ services:
       - doc-app-network
 
   doctor:
-    image: bilalbadar01/doctor-image:76802d5ad04e623139af93a336410740e2441c69
+    image: bilalbadar01/doctor-image:f6d0b96d380886e738090eb994cb27f7fee5883f
     ports:
       - "9090:9090"
     networks:
