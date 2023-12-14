@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: doctors
-        image: bilalbadar01/doctor-image:fee89f838e3689d3e50ce19d6e414bff9c8ac31d
+        image: bilalbadar01/doctor-image:beec25731855d438d2174936068766a724d2fcca
         ports:
         - containerPort: 9090
         env:
@@ -26,12 +26,12 @@ spec:
             memory: "64Mi"
         livenessProbe:
           tcpSocket:
-            port: 3000
+            port: 9090
           initialDelaySeconds: 3
           periodSeconds: 3
         readinessProbe:
           tcpSocket:
-            port: 3000
+            port: 9090
           initialDelaySeconds: 5
           periodSeconds: 5
 
