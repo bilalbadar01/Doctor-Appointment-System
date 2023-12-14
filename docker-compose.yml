@@ -1,46 +1,37 @@
 version: '3'
 
 services:
-  appointments:
-    image: bilalbadar01/appointment-image:6dc539356d674a1e2fa45eada73a198488aed51d
-    ports:
-      - "7070:7070"
-    environment:
-      - APPOINTMENTS_SERVICE_URL=appointments:7070
-    networks:
-      - doc_app_network
-
-  doctor:
-    image: bilalbadar01/doctor-image:f6d0b96d380886e738090eb994cb27f7fee5883f
-    ports:
-      - "9090:9090"
-    environment:
-      - DOCTORS_SERVICE_URL=doctors:9090 
-    networks:
-      - doc_app_network
-
   frontend:
     image: bilalbadar01/frontend-image:6dc539356d674a1e2fa45eada73a198488aed51d
     ports:
-      - "3000:3000" 
-    environment:
-      - DOCTORS_SERVICE_URL=doctors:9090
-      - APPOINTMENTS_SERVICE_URL=appointments:7070
-    depends_on:
-      - doctors
-      - appointments
+      - "3000:3000"
     networks:
-      - doc_app_network
-  db:
-    image: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: my_db
-      MYSQL_USER: db_user
-      MYSQL_PASSWORD: db_password
+      - doc-app-network
+
+  myappointment:
+    image: bilalbadar01/appointment-image:6dc539356d674a1e2fa45eada73a198488aed51d
+    ports:
+      - "7070:7070"
     networks:
-      - doc_app_network
+      - doc-app-network
+
+  doctor:
+    image: bilalbadar01/doctor-image:8be7387c755463dee8ec08ff49a3b755a5923e82
+    ports:
+      - "9090:9090"
+    networks:
+      - doc-app-network
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_password
+    ports:
+      - "3306:3306"
+
 networks:
-  doc_app_network:
+  doc-app-network:
     driver: bridge
