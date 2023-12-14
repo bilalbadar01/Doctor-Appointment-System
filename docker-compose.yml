@@ -2,7 +2,7 @@ version: '3'
 
 services:
   appointments:
-    image: bilalbadar01/appointment-image:beec25731855d438d2174936068766a724d2fcca
+    image: bilalbadar01/appointment-image:a7285b732549ec5b5de39cc9ac709ec855955233
     ports:
       - "7070:7070"
     environment:
@@ -11,7 +11,7 @@ services:
       - doc_app_network
 
   doctors:
-    image: bilalbadar01/doctor-image:beec25731855d438d2174936068766a724d2fcca
+    image: bilalbadar01/doctor-image:a7285b732549ec5b5de39cc9ac709ec855955233
     ports:
       - "9090:9090"
     environment:
