@@ -1,3 +1,4 @@
+# frontend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,25 +14,18 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend-container
-        image: bilalbadar01/frontend-image:latest
-        ports:
-        - containerPort: 3000
-        resources:
-          limits:
-            cpu: "0.5" 
-            memory: "256Mi" 
-        livenessProbe:
-          tcpSocket:
-            port: 3000
-          initialDelaySeconds: 3
-          periodSeconds: 3
-        readinessProbe:
-          tcpSocket:
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: frontend
+          image: bilalbadar01/frontend-image:6dc539356d674a1e2fa45eada73a198488aed51d
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DOCTORS_SERVICE_URL
+              value: "doctors-service:9090"
+            - name: APPOINTMENTS_SERVICE_URL
+              value: "appointments-service:7070"
+
 ---
+# frontend-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -41,5 +35,5 @@ spec:
     app: frontend
   ports:
     - protocol: TCP
-      port: 80
+      port: 3000
       targetPort: 3000

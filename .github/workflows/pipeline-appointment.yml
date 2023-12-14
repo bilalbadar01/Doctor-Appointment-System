@@ -33,7 +33,6 @@ jobs:
       run: |
         docker build -t bilalbadar01/appointment-image:${{ github.sha }} -t bilalbadar01/appointment-image:latest -f ./appointments/Dockerfile ./appointments
         docker push bilalbadar01/appointment-image:${{ github.sha }}
-        docker push bilalbadar01/appointment-image:latest
 
         # Update Docker Compose file for Appointments microservice
         sed -i 's|bilalbadar01/appointment-image:.*|bilalbadar01/appointment-image:'"${{ github.sha }}"'|' docker-compose.yml

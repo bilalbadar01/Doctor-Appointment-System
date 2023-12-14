@@ -33,7 +33,6 @@ jobs:
       run: |
         docker build -t bilalbadar01/doctor-image:${{ github.sha }} -t bilalbadar01/doctor-image:latest -f ./doctors/Dockerfile ./doctors
         docker push bilalbadar01/doctor-image:${{ github.sha }}
-        docker push bilalbadar01/doctor-image:latest
 
         # Update Docker Compose file for Doctors microservice
         sed -i 's|bilalbadar01/doctor-image:.*|bilalbadar01/doctor-image:'"${{ github.sha }}"'|' docker-compose.yml
