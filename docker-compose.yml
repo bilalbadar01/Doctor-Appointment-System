@@ -10,7 +10,7 @@ services:
     networks:
       - doc_app_network
 
-  doctors:
+  doctor:
     image: bilalbadar01/doctor-image:f6d0b96d380886e738090eb994cb27f7fee5883f
     ports:
       - "9090:9090"
