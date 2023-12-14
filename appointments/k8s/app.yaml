@@ -14,12 +14,26 @@ spec:
     spec:
       containers:
         - name: appointments
-          image: bilalbadar01/appointment-image:6dc539356d674a1e2fa45eada73a198488aed51d
+          image: bilalbadar01/appointment-image:fee89f838e3689d3e50ce19d6e414bff9c8ac31d
           ports:
             - containerPort: 7070
           env:
             - name: APPOINTMENTS_SERVICE_URL
               value: "appointments:7070"
+          resources:
+            limits:
+              cpu: '250m'
+              memory: "64Mi"
+            livenessProbe:
+              tcpSocket:
+                port: 3000
+              initialDelaySeconds: 3
+              periodSeconds: 3
+            readinessProbe:
+              tcpSocket:
+                port: 3000
+              initialDelaySeconds: 5
+              periodSeconds: 5
 
 ---
 apiVersion: v1
