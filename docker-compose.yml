@@ -20,7 +20,7 @@ services:
       - doc_app_network
 
   frontend:
-    image: bilalbadar01/frontend-image:beec25731855d438d2174936068766a724d2fcca
+    image: bilalbadar01/frontend-image:a7285b732549ec5b5de39cc9ac709ec855955233
     ports:
       - "3000:3000" 
     environment:
