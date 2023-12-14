@@ -9,14 +9,14 @@ services:
       - doc-app-network
 
   myappointment:
-    image: bilalbadar01/appointment-image:6dc539356d674a1e2fa45eada73a198488aed51d
+    image: bilalbadar01/appointment-image:fee89f838e3689d3e50ce19d6e414bff9c8ac31d
     ports:
       - "7070:7070"
     networks:
       - doc-app-network
 
   doctor:
-    image: bilalbadar01/doctor-image:8be7387c755463dee8ec08ff49a3b755a5923e82
+    image: bilalbadar01/doctor-image:fee89f838e3689d3e50ce19d6e414bff9c8ac31d
     ports:
       - "9090:9090"
     networks:
