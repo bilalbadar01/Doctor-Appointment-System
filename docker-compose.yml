@@ -2,7 +2,7 @@ version: '3'
 
 services:
   appointments:
-    image: bilalbadar01/appointment-image:fee89f838e3689d3e50ce19d6e414bff9c8ac31d
+    image: bilalbadar01/appointment-image:beec25731855d438d2174936068766a724d2fcca
     ports:
       - "7070:7070"
     environment:
