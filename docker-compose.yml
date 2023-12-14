@@ -11,7 +11,7 @@ services:
       - doc_app_network
 
   doctors:
-    image: bilalbadar01/doctor-image:fee89f838e3689d3e50ce19d6e414bff9c8ac31d
+    image: bilalbadar01/doctor-image:beec25731855d438d2174936068766a724d2fcca
     ports:
       - "9090:9090"
     environment:
